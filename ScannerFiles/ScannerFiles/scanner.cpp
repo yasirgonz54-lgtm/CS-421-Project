@@ -228,7 +228,7 @@ bool period (string s)
 
 // ------ Three  Tables -------------------------------------
 
-// TABLES Done by: **
+// TABLES Done by: Yasir Gonzalez
 
 // ** Update the tokentype to be ERROR, WORD1, WORD2, PERIOD, EOFM, etc.
 enum tokentype {ERROR,
@@ -236,6 +236,7 @@ enum tokentype {ERROR,
   WORD2,
   VERB,
   VERBNEG,
+  VERBPAST,
   VERBPASTNEG,
   IS,
   WAS,
@@ -253,6 +254,7 @@ string tokenName[30] = {"ERROR",
   "WORD2",
   "VERB",
   "VERBNEG",
+  "VERBPAST",
   "VERBPASTNEG",
   "IS",
   "WAS",
@@ -272,7 +274,8 @@ string tokenName[30] = {"ERROR",
 map<string, tokentype> reservedWords ={//hardcodded map for words
   {"masu", VERB},
   {"masen", VERBNEG},
-  {"mashita", VERBPASTNEG},
+  {"mashita", VERBPAST},
+  {"masendeshita", VERBPASTNEG},
   {"desu", IS},
   {"deshita", WAS},
   {"o", OBJECT},
@@ -283,10 +286,10 @@ map<string, tokentype> reservedWords ={//hardcodded map for words
   {"kare", PRONOUN},
   {"kanojo", PRONOUN},
   {"sore", PRONOUN},
-  {"meta", CONNECTOR},
+  {"mata", CONNECTOR},
   {"soshite", CONNECTOR},
   {"shikashi", CONNECTOR},
-  {"dakra", CONNECTOR}
+  {"dakara", CONNECTOR}
 };
 // ------------ Scanner and Driver ----------------------- 
 
@@ -337,7 +340,7 @@ void scanner(tokentype& tt, string& w)
  }
  else{//String is not in neither DFA
   tt = ERROR;
-  cout << "Lexical error: " << w << endl;
+  //cout << "Lexical error: " << w << endl;
  }
 }//the end of scanner
 
