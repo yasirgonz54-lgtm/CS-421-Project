@@ -7,46 +7,223 @@ using namespace std;
 /* Look for all **'s and complete them */
 
 //=====================================================
-// File scanner.cpp written by: Group Number: ** 
+// File scanner.cpp written by: Group Number: 10 
 //=====================================================
 
 // --------- Two DFAs ---------------------------------
 
-// You may add other functions to help your implementation of the state transitions
+bool isvowel(char c)
+{
+  return (c=='a' || c=='e' || c=='i' || c=='o' || c=='u' ||
+          c=='I' || c=='E');
+}
+
+bool isgroup_dwzyj(char c)
+{
+  return (c=='d' || c=='w' || c=='z' || c=='y' || c=='j');
+}
+
+bool isgroup_bghkmnpr(char c) //with n
+{
+  return (c=='b' || c=='g' || c=='h' || c=='k' || c=='m' ||
+          c=='n' || c=='p' || c=='r');
+}
+
+bool isgroup_bghkmpr(char c) //without n
+{
+  return (c=='b' || c=='g' || c=='h' || c=='k' || c=='m' ||
+          c=='p' || c=='r');
+}
 
 // WORD DFA 
-// Done by: **
+// Done by: Carly Truong
 bool word (string s)
 {
-
   int state = 0;
   int charpos = 0;
-  /* replace the following todo the word dfa  **
-  while (s[charpos] != '\0') 
+  while (s[charpos] != '\0')
     {
-      if (state == 0 && s[charpos] == 'a')
-      state = 1;
-      else
-      if (state == 1 && s[charpos] == 'b')
-      state = 2;
-      else
-      if (state == 2 && s[charpos] == 'b')
-      state = 2;
-      else
-	  return(false);
+      if (state == 0 && s[charpos] == 's') 
+      {
+        state = 1;
+      }
+      else if (state == 0 && s[charpos] == 't') 
+      {
+        state = 2;
+      }
+      else if (state == 0 && s[charpos] == 'c') 
+      {
+        state = 3;
+      }
+      else if (state == 0 && isgroup_dwzyj(s[charpos])) 
+      {
+        state = 4;
+      }
+      else if (state == 0 && isgroup_bghkmnpr(s[charpos])) 
+      {
+        state = 5;
+      }
+      else if (state == 0 && isvowel(s[charpos])) 
+      {
+        state = 6;
+      }
+      else if (state == 1 && isvowel(s[charpos])) 
+      {
+        state = 7;
+      }
+      else if (state == 1 && s[charpos] == 'h') 
+      {
+        state = 4;
+      }
+      else if (state == 2 && isvowel(s[charpos])) 
+      {
+        state = 7;
+      }
+      else if (state == 2 && s[charpos] == 's') 
+      {
+        state = 4;
+      }
+      else if (state == 3 && s[charpos] == 'h') 
+      {
+        state = 4;
+      }
+      else if (state == 4 && isvowel(s[charpos])) 
+      {
+        state = 7;
+      }
+      else if (state == 5 && isvowel(s[charpos])) 
+      {
+        state = 7;
+      }
+      else if (state == 5 && s[charpos] == 'y') 
+      {
+        state = 4;
+      }
+      else if (state == 6 && s[charpos] == 's') 
+      {
+        state = 1;
+      }
+      else if (state == 6 && isgroup_dwzyj(s[charpos])) 
+      {
+        state = 4;
+      }
+      else if (state == 6 && isgroup_bghkmpr(s[charpos])) 
+      {
+        state = 5;
+      }
+      else if (state == 6 && s[charpos] == 'c') 
+      {
+        state = 3;
+      }
+      else if (state == 6 && s[charpos] == 't') 
+      {
+        state = 2;
+      }
+      else if (state == 6 && s[charpos] == 'n') 
+      {
+        state = 8;
+      }
+      else if (state == 6 && isvowel(s[charpos])) 
+      {
+        state = 6;
+      }
+      else if (state == 7 && s[charpos] == 's') 
+      {
+        state = 1;
+      }
+      else if (state == 7 && s[charpos] == 't') 
+      {
+        state = 2;
+      }
+      else if (state == 7 && s[charpos] == 'c') 
+      {
+        state = 3;
+      }
+      else if (state == 7 && isgroup_dwzyj(s[charpos])) 
+      {
+        state = 4;
+      }
+      else if (state == 7 && isgroup_bghkmpr(s[charpos])) 
+      {
+        state = 5;
+      }
+      else if (state == 7 && s[charpos] == 'n') 
+      {
+        state = 8;
+      }
+      else if (state == 7 && isvowel(s[charpos])) 
+      {
+        state = 6;
+      }
+      else if (state == 8 && s[charpos] == 's') 
+      {
+        state = 1;
+      }
+      else if (state == 8 && s[charpos] == 't') 
+      {
+        state = 2;
+      }
+      else if (state == 8 && s[charpos] == 'c') 
+      {
+        state = 3;
+      }
+      else if (state == 8 && isgroup_dwzyj(s[charpos])) 
+      {
+        state = 4;
+      }
+      else if (state == 8 && isgroup_bghkmnpr(s[charpos])) 
+      {
+        state = 5;
+      }
+      else if (state == 8 && isvowel(s[charpos])) 
+      {
+        state = 7;
+      }
+      else 
+      {
+        return(false);
+      }
       charpos++;
     }//end of while
 
   // where did I end up????
-  if (state == 2) return(true);  // end in a final state
-   else return(false);
-  */
+  if (state == 6 || state == 7 || state == 8)
+    {
+      return(true);  // end in a final state
+    }
+   else 
+   {
+     return(false);
+   }
 }
 
 // PERIOD DFA 
-// Done by: **
+// Done by: Carly Truong
 bool period (string s)
-{  // complete this **
+{  
+	int state = 0;
+	int charpos = 0;
+  while (s[charpos] != '\0')
+    {
+      if (state == 0 && s[charpos] == '.') 
+      {
+        state = 1;
+      }
+      else 
+      {
+        return(false);
+      }
+      charpos++;
+    }//end of while
+
+  if (state == 1)
+    {
+      return(true);  // end in a final state
+    }
+   else 
+   {
+     return(false);
+   }
 }
 
 // ------ Three  Tables -------------------------------------
